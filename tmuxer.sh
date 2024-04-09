@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # ==============================================================================
-# Quick script to setup a tmux session for coding the way I like it.
+# Quick script to setup a tmux session for coding the way I like it. It uses
+# fzf to help the user select a project and then opens a new tmux session setup
+# the way I want it.
 #
 # Tim de Klijn, 
 # 2024
@@ -12,9 +14,18 @@ EDITOR="nvim"
 # Set workspace to search for projects (folders) in
 WORKSPACE=~/workspace
 
-# Setup by searching through project dir and create session name
+# Setup by searching through project dir.
 # NOTE: this will return `~/workspace` as one of the options
 PROJECT=$(find $WORKSPACE -maxdepth 1 -type d | fzf)
+
+# If ESC is pressed nothing is selected in fzf. Check if the project is empty
+# and simply exit.
+if [ -z "$var" ]; then
+    echo "ERROR: nothing selected"
+    exit 1;
+fi
+
+# Create a session name
 NAME=$(basename $PROJECT)
 
 # Check if session $NAME already exists. If so, simply switch to that session
