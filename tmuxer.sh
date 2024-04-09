@@ -1,22 +1,39 @@
 #!/bin/bash
+
+# ==============================================================================
+# Quick script to setup a tmux session for coding the way I like it.
 #
-# Tim de Klijn, 2024
-# Quick script to setup a tmux session the way I like it
-editor="nvim"
+# Tim de Klijn, 
+# 2024
+# ==============================================================================
+
+# Set editor to open on the `CODE` window in tmux
+EDITOR="nvim"
+# Set workspace to search for projects (folders) in
+WORKSPACE=~/workspace
 
 # Setup by searching through project dir and create session name
-project=$(find ~/workspace -maxdepth 1 -type d | fzf)
-name=$(basename $project)
+# NOTE: this will return `~/workspace` as one of the options
+PROJECT=$(find $WORKSPACE -maxdepth 1 -type d | fzf)
+NAME=$(basename $PROJECT)
 
-# Check if session name already.
-tmux has-session -t $name 2>/dev/null
+# Check if session $NAME already exists. If so, simply switch to that session
+tmux has-session -t $NAME 2>/dev/null
 if [ $? == 0 ]; then
-    # if session exists, attach to it.
-    tmux switch -t $name:1
+    tmux switch -t $NAME:1
 else
-    # Setup a new session
-    tmux new-session -d -s $name -n CODE -c $project $editor &
-    tmux new-window -t $name -n TERM -c $project
-    tmux switch -t $name:1
+    # If no session with $NAME exists, create a new one with two windows open.
+    # On the first window, open $EDITOR and on the second run 'git status'
+    tmux new-session -d -s $NAME -n CODE -c $PROJECT
+    tmux new-window -t $NAME -n TERM -c $PROJECT
+
+    # To not have the windows close after closing the editor we should first
+    # create the window and then use `send-keys` to start the commands.
+    tmux send-keys -t $NAME:0 $EDITOR Enter
+    tmux send-keys -t $NAME:1 "git status" Enter
+
+    # If everything is setup, switch to the session. Specifically to the window
+    # with the git status.
+    tmux switch -t $NAME:1
 fi
 
