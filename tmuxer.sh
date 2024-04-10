@@ -20,7 +20,7 @@ PROJECT=$(find $WORKSPACE -maxdepth 1 -type d | fzf)
 
 # If ESC is pressed nothing is selected in fzf. Check if the project is empty
 # and simply exit.
-if [ -z "$var" ]; then
+if [ -z "$PROJECT" ]; then
     echo "ERROR: nothing selected"
     exit 1;
 fi
