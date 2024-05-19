@@ -31,7 +31,7 @@ NAME=$(basename $PROJECT)
 # Check if session $NAME already exists. If so, simply switch to that session
 tmux has-session -t $NAME 2>/dev/null
 if [ $? == 0 ]; then
-    tmux switch -t $NAME:1
+    tmux switch -t $NAME:0
 else
     # If no session with $NAME exists, create a new one with two windows open.
     # On the first window, open $EDITOR and on the second run 'git status'
@@ -41,7 +41,7 @@ else
     # To not have the windows close after closing the editor we should first
     # create the window and then use `send-keys` to start the commands.
     tmux send-keys -t $NAME:0 $EDITOR Enter
-    tmux send-keys -t $NAME:1 "git status" Enter
+    tmux send-keys -t $NAME:1 "gitui" Enter
 
     # If everything is setup, switch to the session. Specifically to the window
     # with the git status.
