@@ -41,7 +41,7 @@ else
     # To not have the windows close after closing the editor we should first
     # create the window and then use `send-keys` to start the commands.
     tmux send-keys -t $NAME:0 $EDITOR Enter
-    tmux send-keys -t $NAME:1 "gitui" Enter
+    tmux send-keys -t $NAME:1 "lazygit" Enter
 
     # If everything is setup, switch to the session. Specifically to the window
     # with the git status.
