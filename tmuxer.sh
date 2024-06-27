@@ -38,13 +38,15 @@ else
     # On the first window, open $EDITOR and on the second run 'git status'
     tmux new-session -d -s $NAME -n CODE -c $PROJECT
     tmux new-window -t $NAME -n TERM -c $PROJECT
+    tmux new-window -t $NAME -n FILES -c $PROJECT
     tmux new-window -t $NAME -n GIT -c $PROJECT
 
     # To not have the windows close after closing the editor we should first
     # create the window and then use `send-keys` to start the commands.
     tmux send-keys -t $NAME:0 $EDITOR Enter
     tmux send-keys -t $NAME:1 "echo 'TERM'" ENTER
-    tmux send-keys -t $NAME:2 $GITUI Enter
+    tmux send-keys -t $NAME:2 "yazi" ENTER
+    tmux send-keys -t $NAME:3 $GITUI Enter
 
     # If everything is setup, switch to the session. Specifically to the window
     # with the git status.
