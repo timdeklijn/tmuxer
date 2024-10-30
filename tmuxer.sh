@@ -11,13 +11,14 @@
 
 # Set editor to open on the `CODE` window in tmux
 EDITOR="nvim"
-GITUI="gitu"
+GIT_COMMAND="git log --oneline --graph --all --decorate"
 # Set workspace to search for projects (folders) in
 WORKSPACE=~/workspace
+PERSONAL=~/workspace/personal
+NS=~/workspace/ns
 
 # Setup by searching through project dir.
-# NOTE: this will return `~/workspace` as one of the options
-PROJECT=$(find $WORKSPACE -maxdepth 1 -type d | fzf)
+PROJECT=$(find $WORKSPACE $PERSONAL $NS -maxdepth 1 -type d | fzf)
 
 # If ESC is pressed nothing is selected in fzf. Check if the project is empty
 # and simply exit.
@@ -44,7 +45,7 @@ else
     # create the window and then use `send-keys` to start the commands.
     tmux send-keys -t $NAME:0 $EDITOR Enter
     tmux send-keys -t $NAME:1 "echo 'TERM'" ENTER
-    tmux send-keys -t $NAME:2 $GITUI Enter
+    tmux send-keys -t $NAME:2 "$GIT_COMMAND" Enter
 
     # If everything is setup, switch to the session. Specifically to the window
     # with the git status.
