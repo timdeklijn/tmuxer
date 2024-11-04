@@ -11,7 +11,7 @@
 
 # Set editor to open on the `CODE` window in tmux
 EDITOR="nvim"
-GIT_COMMAND="git log --oneline --graph --all --decorate"
+GIT_COMMAND="lazygit"
 # Set workspace to search for projects (folders) in
 WORKSPACE=~/workspace
 PERSONAL=~/workspace/personal
@@ -45,7 +45,7 @@ else
     # create the window and then use `send-keys` to start the commands.
     tmux send-keys -t $NAME:0 $EDITOR Enter
     tmux send-keys -t $NAME:1 "echo 'TERM'" ENTER
-    tmux send-keys -t $NAME:2 "$GIT_COMMAND" Enter
+    tmux send-keys -t $NAME:2 $GIT_COMMAND Enter
 
     # If everything is setup, switch to the session. Specifically to the window
     # with the git status.
