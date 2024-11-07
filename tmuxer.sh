@@ -10,8 +10,9 @@
 # ==============================================================================
 
 # Set editor to open on the `CODE` window in tmux
-EDITOR="nvim"
+EDITOR="hx"
 GIT_COMMAND="lazygit"
+FILE_COMMAND="yazi"
 # Set workspace to search for projects (folders) in
 WORKSPACE=~/workspace
 PERSONAL=~/workspace/personal
@@ -39,13 +40,15 @@ else
     # On the first window, open $EDITOR and on the second run 'git status'
     tmux new-session -d -s $NAME -n CODE -c $PROJECT
     tmux new-window -t $NAME -n TERM -c $PROJECT
+    tmux new-window -t $NAME -n FILES -c $PROJECT
     tmux new-window -t $NAME -n GIT -c $PROJECT
 
     # To not have the windows close after closing the editor we should first
     # create the window and then use `send-keys` to start the commands.
     tmux send-keys -t $NAME:0 $EDITOR Enter
     tmux send-keys -t $NAME:1 "echo 'TERM'" ENTER
-    tmux send-keys -t $NAME:2 $GIT_COMMAND Enter
+    tmux send-keys -t $NAME:2 $FILE_COMMAND ENTER
+    tmux send-keys -t $NAME:3 $GIT_COMMAND Enter
 
     # If everything is setup, switch to the session. Specifically to the window
     # with the git status.
