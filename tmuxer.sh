@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ==============================================================================
 # Quick script to setup a tmux session for coding the way I like it. It uses
@@ -12,14 +12,15 @@
 # Set editor to open on the `CODE` window in tmux
 EDITOR="hx"
 GIT_COMMAND="lazygit"
-FILE_COMMAND="yazi"
+FILE_COMMAND="broot"
 # Set workspace to search for projects (folders) in
 WORKSPACE=~/workspace
 PERSONAL=~/workspace/personal
 NS=~/workspace/ns
+SOFTWARE=~/worspace/software
 
 # Setup by searching through project dir.
-PROJECT=$(find $WORKSPACE $PERSONAL $NS -maxdepth 1 -type d | fzf)
+PROJECT=$(find $WORKSPACE $PERSONAL $NS $SOFTWARE -maxdepth 1 -type d | fzf)
 
 # If ESC is pressed nothing is selected in fzf. Check if the project is empty
 # and simply exit.
